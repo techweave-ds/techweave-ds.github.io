@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deepanshu Sharma — Senior BI Consultant</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060912;--surface:#0d1220;--surface2:#121929;
+  --border:rgba(255,255,255,0.07);--text:#e8eaf0;--muted:#6b7694;
+  --accent:#00d4ff;--accent2:#ff6b35;--accent3:#7c3aed;--green:#00e5a0;--yellow:#ffd166;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;mix-blend-mode:screen;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(0,212,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5vw;border-bottom:1px solid var(--border);background:rgba(6,9,18,0.8);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.1em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:0.4rem;}
+.nav-logo-bracket{color:var(--accent);font-size:1.1rem;}
+.nav-logo-text{color:var(--text);}
+.nav-logo-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;font-weight:500;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transition:transform .25s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-links a:hover::after{transform:scaleX(1);}
+
+/* HIRE ME button — animated */
+.nav-hire{position:relative;padding:0.55rem 1.6rem;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;text-decoration:none;color:var(--bg);background:var(--accent);border:none;cursor:none;overflow:hidden;transition:box-shadow .3s,transform .2s;font-family:'Outfit',sans-serif;}
+.nav-hire::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.2);border-radius:50%;transform:translate(-50%,-50%);transition:width .5s,height .5s;}
+.nav-hire:hover::before{width:300px;height:300px;}
+.nav-hire:hover{box-shadow:0 0 24px rgba(0,212,255,0.5),0 0 48px rgba(0,212,255,0.2);transform:translateY(-2px);}
+.nav-hire .hire-pulse{position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:#fff;animation:hirePulse 1.8s infinite;}
+@keyframes hirePulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.6);}}
+@keyframes pulse{0%,100%{box-shadow:0 0 6px var(--green);}50%{box-shadow:0 0 18px var(--green);}}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;}
+.hero-content{position:relative;z-index:10;padding:0 5vw;padding-top:110px;max-width:780px;}
+.hero-eyebrow{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .3s forwards;}
+.hero-status{display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.9rem;border:1px solid rgba(0,229,160,0.25);background:rgba(0,229,160,0.06);}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite;}
+.hero-status-text{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--green);letter-spacing:0.1em;}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,9.5vw,8.5rem);line-height:.92;letter-spacing:.03em;opacity:0;animation:fadeUp .8s .5s forwards;}
+.hero-name .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.25);display:block;}
+.hero-title{margin-top:1.4rem;font-size:1rem;font-weight:300;color:var(--muted);max-width:460px;line-height:1.85;opacity:0;animation:fadeUp .8s .7s forwards;}
+.hero-title strong{color:var(--accent);font-weight:500;}
+.hero-title em{color:var(--yellow);font-style:normal;font-weight:500;}
+.hero-actions{margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .9s forwards;}
+.btn-glow{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;background:var(--accent);color:var(--bg);font-weight:700;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:box-shadow .3s,transform .2s;overflow:hidden;position:relative;}
+.btn-glow:hover{box-shadow:0 0 28px rgba(0,212,255,.5),0 0 56px rgba(0,212,255,.2);transform:translateY(-2px);}
+.btn-ghost{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;border:1px solid var(--border);color:var(--text);font-weight:400;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.hero-stats{position:absolute;bottom:3rem;right:5vw;display:flex;gap:3rem;z-index:10;opacity:0;animation:fadeUp .8s 1.1s forwards;}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:var(--accent);text-shadow:0 0 30px rgba(0,212,255,.4);}
+.hero-stat-label{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:.2rem;}
+.hero-scroll{position:absolute;bottom:3rem;left:5vw;z-index:10;display:flex;align-items:center;gap:.8rem;opacity:0;animation:fadeIn 1s 1.4s forwards;}
+.scroll-line{width:40px;height:1px;background:linear-gradient(90deg,var(--accent),transparent);}
+.scroll-text{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);animation:scrollBounce 2s infinite;}
+@keyframes scrollBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+
+/* TICKER */
+.ticker-wrap{overflow:hidden;padding:1.2rem 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.ticker{display:flex;gap:3rem;animation:ticker 40s linear infinite;width:max-content;}
+.tick-item{display:flex;align-items:center;gap:.5rem;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.tick-item .dot{width:4px;height:4px;border-radius:50%;background:var(--accent);}
+.tick-item.hi{color:var(--text);}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTION COMMON */
+section{border-top:1px solid var(--border);}
+.sec-label{display:flex;align-items:center;gap:1rem;padding:2.5rem 5vw 0;}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent);letter-spacing:.1em;}
+.sec-line{flex:1;height:1px;background:var(--border);}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.1em;}
+.sec-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5.5vw,5rem);letter-spacing:.05em;line-height:1;padding:.8rem 5vw 0;color:var(--text);}
+.sec-heading span{color:var(--accent);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:4rem;padding:3rem 5vw 5rem;align-items:start;}
+.about-left p{font-size:1rem;line-height:1.9;font-weight:300;color:rgba(232,234,240,.75);margin-bottom:1.2rem;}
+.about-left p strong{color:var(--accent);font-weight:600;}
+.about-left p em{color:var(--yellow);font-style:normal;font-weight:500;}
+.about-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;position:relative;}
+.about-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent3),transparent);}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;}
+.info-cell{padding:1.1rem 1.3rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+.info-cell:nth-child(2n){border-right:none;}
+.info-cell:nth-last-child(-n+2){border-bottom:none;}
+.info-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;}
+.info-val{font-size:.88rem;font-weight:500;color:var(--text);}
+.info-val a{color:var(--accent);text-decoration:none;}
+.info-val a:hover{text-decoration:underline;}
+.skill-bars{margin-top:2rem;display:flex;flex-direction:column;gap:.8rem;}
+.skill-row{display:flex;flex-direction:column;gap:.35rem;}
+.skill-meta{display:flex;justify-content:space-between;}
+.skill-name{font-size:.75rem;letter-spacing:.06em;color:rgba(232,234,240,.7);font-weight:500;}
+.skill-pct{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent);}
+.skill-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.skill-fill{height:100%;border-radius:2px;transition:width 1.5s cubic-bezier(.16,1,.3,1);}
+
+/* PROJECTS */
+.projects-intro{padding:0 5vw 2rem;font-size:.9rem;color:var(--muted);font-weight:300;max-width:540px;line-height:1.7;}
+.proj-count-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .9rem;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:.1em;margin:0 5vw 2.5rem;cursor:pointer;transition:background .2s;}
+.proj-count-badge:hover{background:rgba(0,212,255,.15);}
+
+/* Project tabs */
+.proj-tabs{display:flex;overflow-x:auto;gap:0;padding:0 5vw;border-bottom:1px solid var(--border);scrollbar-width:none;}
+.proj-tabs::-webkit-scrollbar{display:none;}
+.proj-tab{padding:.8rem 1.5rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;background:none;border-top:none;border-left:none;border-right:none;}
+.proj-tab:hover{color:var(--text);}
+.proj-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+.proj-panel{display:none;}
+.proj-panel.active{display:block;}
+
+/* Project block layout */
+.project-block{display:grid;grid-template-columns:1fr 1fr;min-height:500px;border-top:1px solid var(--border);}
+.project-block.flip{direction:rtl;}
+.project-block.flip>*{direction:ltr;}
+.project-info{padding:3.5rem 5vw;display:flex;flex-direction:column;justify-content:center;}
+.project-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .8rem;border:1px solid;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:1.5rem;width:fit-content;}
+.project-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);letter-spacing:.04em;line-height:1.05;margin-bottom:1rem;}
+.project-desc{font-size:.88rem;line-height:1.85;color:rgba(232,234,240,.6);font-weight:300;margin-bottom:1.8rem;max-width:400px;}
+.project-impact{display:flex;gap:2rem;margin-bottom:1.8rem;}
+.impact-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;}
+.impact-label{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.2rem;}
+.project-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.ptag{padding:.22rem .65rem;background:rgba(255,255,255,.04);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--muted);}
+
+/* All projects grid */
+.all-projects-grid{display:grid;grid-template-columns:repeat(3,1fr);padding:0 5vw 4rem;gap:1px;background:var(--border);}
+.mini-proj{background:var(--bg);padding:1.8rem 1.5rem;transition:background .25s;position:relative;overflow:hidden;}
+.mini-proj:hover{background:var(--surface);}
+.mini-proj::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transform:scaleX(0);transition:transform .35s;}
+.mini-proj:hover::before{transform:scaleX(1);}
+.mini-proj-client{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;}
+.mini-proj-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.04em;line-height:1.1;margin-bottom:.6rem;}
+.mini-proj-desc{font-size:.78rem;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:.9rem;}
+.mini-proj-tags{display:flex;flex-wrap:wrap;gap:.3rem;}
+.mini-ptag{padding:.18rem .55rem;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--muted);border:1px solid var(--border);}
+
+/* Dashboard mocks */
+.project-dash{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:2.5rem;}
+
+/* DASH PORSCHE — teal terminal */
+.dash-porsche{background:#020d0f;border-left:1px solid var(--border);}
+.d-porsche{width:100%;background:#041418;border:1px solid rgba(0,255,200,.12);font-family:'JetBrains Mono',monospace;overflow:hidden;border-radius:4px;}
+.d-p-top{background:#041418;border-bottom:1px solid rgba(0,255,200,.1);padding:.55rem 1rem;display:flex;justify-content:space-between;align-items:center;}
+.d-p-title{font-size:.56rem;color:#00ffc8;letter-spacing:.12em;text-transform:uppercase;}
+.d-p-dots{display:flex;gap:.3rem;}
+.d-p-dot{width:6px;height:6px;border-radius:50%;}
+.d-p-body{padding:.9rem;}
+.d-p-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin-bottom:.7rem;}
+.d-p-k{padding:.55rem;background:rgba(0,255,200,.04);border:1px solid rgba(0,255,200,.1);}
+.d-p-k-v{font-size:1rem;font-weight:600;color:#00ffc8;}
+.d-p-k-l{font-size:.48rem;color:rgba(0,255,200,.45);letter-spacing:.08em;margin-top:.15rem;}
+.d-p-chart-row{display:grid;grid-template-columns:1.4fr 1fr;gap:.45rem;}
+.d-p-card{background:rgba(0,255,200,.02);border:1px solid rgba(0,255,200,.08);padding:.65rem;}
+.d-p-card-title{font-size:.48rem;color:rgba(0,255,200,.35);letter-spacing:.1em;margin-bottom:.45rem;}
+.d-p-table{width:100%;}
+.d-p-tr{display:grid;grid-template-columns:1.2fr .8fr .8fr;padding:.25rem 0;border-bottom:1px solid rgba(0,255,200,.05);font-size:.5rem;}
+.d-p-tr.head{color:rgba(0,255,200,.3);font-size:.45rem;letter-spacing:.06em;}
+.d-p-tr.data{color:rgba(0,255,200,.65);}
+.d-p-tr.total{color:#00ffc8;font-weight:600;border-top:1px solid rgba(0,255,200,.2);border-bottom:none;margin-top:.25rem;}
+.d-p-r{text-align:right;}
+
+/* DASH SKODA — amber */
+.dash-skoda{background:#0e0900;border-right:1px solid var(--border);}
+.d-skoda{width:100%;background:linear-gradient(135deg,#140e00,#1a1100);border:1px solid rgba(255,180,0,.12);border-radius:4px;overflow:hidden;}
+.d-s-top{background:rgba(255,180,0,.06);border-bottom:1px solid rgba(255,180,0,.1);padding:.55rem 1rem;display:flex;justify-content:space-between;align-items:center;}
+.d-s-title{font-family:'Outfit',sans-serif;font-size:.56rem;color:#ffb400;letter-spacing:.1em;text-transform:uppercase;font-weight:600;}
+.d-s-badge{padding:.12rem .45rem;background:rgba(255,180,0,.15);border:1px solid rgba(255,180,0,.3);font-family:'JetBrains Mono',monospace;font-size:.45rem;color:#ffb400;border-radius:2px;}
+.d-s-body{padding:.9rem;}
+.d-s-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-bottom:.7rem;}
+.d-s-k{padding:.45rem .55rem;background:rgba(255,180,0,.05);border-bottom:2px solid;}
+.d-s-k-v{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#ffb400;}
+.d-s-k-l{font-size:.45rem;color:rgba(255,180,0,.4);letter-spacing:.06em;margin-top:.15rem;font-family:'JetBrains Mono',monospace;}
+.d-s-row{display:grid;grid-template-columns:1.6fr 1fr;gap:.45rem;}
+.d-s-card{padding:.65rem;border:1px solid rgba(255,180,0,.08);background:rgba(255,180,0,.02);}
+.d-s-card-title{font-size:.47rem;color:rgba(255,180,0,.35);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:.55rem;}
+.d-s-bars{display:flex;align-items:flex-end;gap:2px;height:58px;}
+.d-s-bar{flex:1;border-radius:1px 1px 0 0;}
+.d-s-mix{display:flex;flex-direction:column;gap:.4rem;}
+.d-s-mix-row{display:flex;align-items:center;gap:.35rem;}
+.d-s-mix-label{font-size:.48rem;color:rgba(255,180,0,.55);width:48px;font-family:'JetBrains Mono',monospace;}
+.d-s-mix-track{flex:1;height:4px;background:rgba(255,180,0,.07);border-radius:2px;overflow:hidden;}
+.d-s-mix-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#ff8c00,#ffb400);}
+.d-s-mix-val{font-size:.48rem;color:#ffb400;font-family:'JetBrains Mono',monospace;}
+
+/* DASH AUDI — violet */
+.dash-audi{background:#07030f;border-left:1px solid var(--border);}
+.d-audi{width:100%;background:#0a0416;border:1px solid rgba(160,80,255,.15);border-radius:4px;overflow:hidden;}
+.d-a-top{background:rgba(160,80,255,.07);border-bottom:1px solid rgba(160,80,255,.12);padding:.55rem 1rem;display:flex;justify-content:space-between;align-items:center;}
+.d-a-title{font-size:.56rem;color:#c084fc;letter-spacing:.12em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;}
+.d-a-pills{display:flex;gap:.3rem;}
+.d-a-pill{padding:.1rem .45rem;background:rgba(160,80,255,.2);font-size:.43rem;color:#c084fc;border-radius:99px;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;}
+.d-a-body{padding:.9rem;}
+.d-a-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin-bottom:.7rem;}
+.d-a-k{padding:.55rem;text-align:center;background:rgba(160,80,255,.05);border:1px solid rgba(160,80,255,.1);position:relative;overflow:hidden;}
+.d-a-k::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7c3aed,#c084fc);}
+.d-a-k-v{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:#c084fc;}
+.d-a-k-l{font-size:.45rem;color:rgba(160,80,255,.4);letter-spacing:.06em;margin-top:.1rem;font-family:'JetBrains Mono',monospace;}
+.d-a-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.d-a-card{padding:.65rem;border:1px solid rgba(160,80,255,.08);background:rgba(160,80,255,.02);}
+.d-a-card-title{font-size:.47rem;color:rgba(160,80,255,.35);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:.55rem;}
+
+/* DASH SPEND — coral */
+.dash-spend{background:#100408;border-right:1px solid var(--border);}
+.d-spend{width:100%;background:#1a060c;border:2px solid rgba(255,80,80,.2);border-radius:2px;overflow:hidden;}
+.d-sp-top{background:rgba(255,80,80,.1);border-bottom:2px solid rgba(255,80,80,.15);padding:.55rem 1rem;display:flex;justify-content:space-between;align-items:center;}
+.d-sp-title{font-family:'Bebas Neue',sans-serif;font-size:.8rem;color:#ff5050;letter-spacing:.2em;}
+.d-sp-saving{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:#00e5a0;letter-spacing:.06em;}
+.d-sp-body{padding:.9rem;}
+.d-sp-kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem;margin-bottom:.7rem;}
+.d-sp-k{padding:.65rem;border-left:3px solid;background:rgba(255,255,255,.02);}
+.d-sp-k-v{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;}
+.d-sp-k-l{font-size:.47rem;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-top:.15rem;}
+.d-sp-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.d-sp-card{padding:.65rem;border:1px solid rgba(255,80,80,.08);background:rgba(255,80,80,.02);}
+.d-sp-card-title{font-size:.47rem;color:rgba(255,80,80,.35);letter-spacing:.1em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:.55rem;}
+.d-sp-savings-item{display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid rgba(255,80,80,.06);font-size:.5rem;}
+.d-sp-s-name{color:rgba(255,255,255,.4);font-family:'JetBrains Mono',monospace;}
+.d-sp-s-val{color:#00e5a0;font-family:'JetBrains Mono',monospace;}
+
+/* ACHIEVEMENTS */
+.achieve-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);}
+.achieve-cell{padding:2.8rem 2.2rem;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .3s;}
+.achieve-cell:last-child{border-right:none;}
+.achieve-cell:hover{background:rgba(0,212,255,.03);}
+.achieve-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transform:scaleX(0);transition:transform .4s;}
+.achieve-cell:hover::before{transform:scaleX(1);}
+.achieve-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1;letter-spacing:.02em;margin-bottom:.7rem;}
+.achieve-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.45rem;}
+.achieve-desc{font-size:.76rem;color:var(--muted);line-height:1.7;font-weight:300;}
+
+/* ===== HIRE ME SECTION ===== */
+#hire{background:var(--surface);border-top:2px solid var(--accent);}
+.hire-inner{padding:5rem 5vw;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.hire-left h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5.5rem);letter-spacing:.05em;line-height:.95;margin-bottom:1.5rem;}
+.hire-left h2 span{color:var(--accent);}
+.hire-left p{font-size:.95rem;font-weight:300;color:rgba(232,234,240,.65);line-height:1.85;margin-bottom:2rem;}
+.hire-resume-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.8rem;border:1px solid rgba(0,212,255,.3);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .2s,box-shadow .2s;cursor:none;}
+.hire-resume-btn:hover{background:rgba(0,212,255,.08);box-shadow:0 0 20px rgba(0,212,255,.15);}
+.hire-resume-btn svg{width:14px;height:14px;}
+
+.hire-right{display:flex;flex-direction:column;gap:1.2rem;}
+.hire-card{background:var(--bg);border:1px solid var(--border);padding:2rem 2rem;display:flex;align-items:center;gap:1.5rem;cursor:none;transition:border-color .25s,background .25s,transform .2s;text-decoration:none;position:relative;overflow:hidden;}
+.hire-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;transform:scaleY(0);transition:transform .3s;}
+.hire-card:hover{transform:translateX(4px);}
+.hire-card:hover::before{transform:scaleY(1);}
+.hire-card.call{border-color:rgba(0,229,160,.15);}
+.hire-card.call:hover{border-color:rgba(0,229,160,.4);background:rgba(0,229,160,.04);}
+.hire-card.call::before{background:var(--green);}
+.hire-card.mail{border-color:rgba(0,212,255,.15);}
+.hire-card.mail:hover{border-color:rgba(0,212,255,.4);background:rgba(0,212,255,.04);}
+.hire-card.mail::before{background:var(--accent);}
+.hire-card.linkedin{border-color:rgba(124,58,237,.15);}
+.hire-card.linkedin:hover{border-color:rgba(124,58,237,.4);background:rgba(124,58,237,.04);}
+.hire-card.linkedin::before{background:var(--accent3);}
+.hire-icon{width:44px;height:44px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hire-icon.green{background:rgba(0,229,160,.12);border:1px solid rgba(0,229,160,.2);}
+.hire-icon.blue{background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.2);}
+.hire-icon.purple{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);}
+.hire-card-title{font-weight:600;font-size:.95rem;color:var(--text);margin-bottom:.2rem;}
+.hire-card-sub{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.06em;}
+.hire-arrow{margin-left:auto;font-size:1.2rem;color:var(--muted);transition:transform .2s,color .2s;}
+.hire-card:hover .hire-arrow{transform:translateX(4px);}
+.hire-card.call:hover .hire-arrow{color:var(--green);}
+.hire-card.mail:hover .hire-arrow{color:var(--accent);}
+.hire-card.linkedin:hover .hire-arrow{color:var(--accent3);}
+
+/* FOOTER */
+footer{padding:2.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;border-top:1px solid var(--border);}
+.footer-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.12em;color:var(--text);}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(107,118,148,.4);letter-spacing:.08em;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .hero-content{padding:0 1.5rem;padding-top:88px;}
+  .hero-stats{right:1.5rem;gap:1.5rem;}
+  .about-grid{grid-template-columns:1fr;gap:2rem;padding:2rem 1.5rem 3rem;}
+  .sec-heading{padding:.5rem 1.5rem 0;}
+  .sec-label{padding:2rem 1.5rem 0;}
+  .project-block{grid-template-columns:1fr;min-height:auto;direction:ltr!important;}
+  .project-info{padding:2.5rem 1.5rem;}
+  .project-dash{min-height:300px;}
+  .dash-porsche,.dash-skoda,.dash-audi,.dash-spend{border-left:none!important;border-right:none!important;border-top:1px solid var(--border);}
+  .achieve-grid{grid-template-columns:1fr 1fr;}
+  .achieve-cell{border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .projects-intro,.proj-count-badge{padding-left:1.5rem;padding-right:1.5rem;margin-left:0;}
+  .all-projects-grid{grid-template-columns:1fr 1fr;padding:0 1.5rem 3rem;}
+  .hire-inner{grid-template-columns:1fr;gap:3rem;padding:3rem 1.5rem;}
+  footer{padding:2rem 1.5rem;flex-direction:column;align-items:flex-start;}
+  .proj-tabs{padding:0 1.5rem;}
+}
+@media(max-width:540px){
+  .all-projects-grid{grid-template-columns:1fr;}
+  .achieve-grid{grid-template-columns:1fr;}
+  .achieve-cell{border-right:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-bracket">[</span>
+    <span class="nav-logo-text">BI</span>
+    <div class="nav-logo-dot"></div>
+    <span class="nav-logo-text">DS</span>
+    <span class="nav-logo-bracket">]</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#hire">Contact</a></li>
+  </ul>
+  <a href="#hire" class="nav-hire">
+    Let's Work Together
+    <span class="hire-pulse"></span>
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-status">
+        <div class="hero-dot"></div>
+        <span class="hero-status-text">Open to New Opportunities</span>
+      </div>
+    </div>
+
+    <h1 class="hero-name">
+      DEEPANSHU
+      <span class="stroke">SHARMA</span>
+    </h1>
+
+    <p class="hero-title">
+      <strong>Senior BI Consultant</strong> — 6+ years turning messy enterprise data<br>
+      into <em>dashboards that drive decisions</em>. Expert in Qlik, Power BI,<br>
+      SQL &amp; cloud analytics at scale.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn-glow">View My Work →</a>
+      <a href="#hire" class="btn-ghost">Get In Touch ↗</a>
+    </div>
+  </div>
+
+  <!-- Person silhouette -->
+  <div style="position:absolute;right:0;bottom:0;height:90vh;z-index:5;opacity:0;animation:fadeIn 1.2s .8s forwards;pointer-events:none;overflow:hidden;">
+    <svg viewBox="0 0 420 780" style="height:100%;width:auto;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(0,212,255,0.06)"/>
+          <stop offset="55%" stop-color="rgba(124,58,237,0.08)"/>
+          <stop offset="100%" stop-color="rgba(0,212,255,0)"/>
+        </linearGradient>
+        <linearGradient id="glowLine" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="rgba(0,212,255,0)"/>
+          <stop offset="50%" stop-color="rgba(0,212,255,0.7)"/>
+          <stop offset="100%" stop-color="rgba(0,212,255,0)"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+      </defs>
+      <path d="M210 40 C238 40 258 58 258 85 C258 112 238 130 210 130 C182 130 162 112 162 85 C162 58 182 40 210 40Z" fill="url(#bodyGrad)" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
+      <path d="M120 200 C120 160 155 135 210 130 C265 135 300 160 300 200 L310 420 L280 450 L280 760 L140 760 L140 450 L110 420 Z" fill="url(#bodyGrad)" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+      <path d="M120 200 L70 350 L90 358 L140 230" fill="url(#bodyGrad)" stroke="rgba(0,212,255,0.12)" stroke-width="1"/>
+      <path d="M300 200 L360 340 L340 350 L280 230" fill="url(#bodyGrad)" stroke="rgba(0,212,255,0.12)" stroke-width="1"/>
+      <rect x="100" y="0" width="220" height="1.5" fill="url(#glowLine)" opacity="0.9" filter="url(#glow)">
+        <animateTransform attributeName="transform" type="translate" values="0,0;0,760;0,0" dur="4s" repeatCount="indefinite"/>
+      </rect>
+      <circle cx="210" cy="250" r="3" fill="var(--accent)" opacity="0.6"><animate attributeName="opacity" values=".4;1;.4" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="175" cy="310" r="2" fill="#c084fc" opacity="0.5"><animate attributeName="opacity" values=".3;.9;.3" dur="2.5s" repeatCount="indefinite"/></circle>
+      <circle cx="245" cy="310" r="2" fill="#c084fc" opacity="0.5"><animate attributeName="opacity" values=".3;.9;.3" dur="1.8s" repeatCount="indefinite"/></circle>
+      <circle cx="200" cy="380" r="2.5" fill="var(--green)" opacity="0.5"><animate attributeName="opacity" values=".3;1;.3" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="220" cy="460" r="2" fill="var(--yellow)" opacity="0.4"><animate attributeName="opacity" values=".2;.8;.2" dur="2.2s" repeatCount="indefinite"/></circle>
+    </svg>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">18+</div>
+      <div class="hero-stat-label">Projects Delivered</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">95%</div>
+      <div class="hero-stat-label">Effort Reduction</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">6+</div>
+      <div class="hero-stat-label">Years Experience</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll to explore</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="tick-item hi"><span class="dot"></span>Qlik Sense</span>
+    <span class="tick-item">QlikView</span>
+    <span class="tick-item hi"><span class="dot"></span>Power BI</span>
+    <span class="tick-item">DAX</span>
+    <span class="tick-item hi"><span class="dot"></span>SQL</span>
+    <span class="tick-item">AWS Athena</span>
+    <span class="tick-item hi"><span class="dot"></span>ETL Pipelines</span>
+    <span class="tick-item">NPrinting</span>
+    <span class="tick-item hi"><span class="dot"></span>Star Schema</span>
+    <span class="tick-item">M Query</span>
+    <span class="tick-item hi"><span class="dot"></span>Power Query</span>
+    <span class="tick-item">Writeback Solutions</span>
+    <span class="tick-item hi"><span class="dot"></span>AWS S3 · EC2</span>
+    <span class="tick-item">Data Modeling</span>
+    <span class="tick-item hi"><span class="dot"></span>Row-Level Security</span>
+    <span class="tick-item">Performance Tuning</span>
+    <span class="tick-item hi"><span class="dot"></span>SAP SQL</span>
+    <span class="tick-item">QMC</span>
+    <!-- duplicate for loop -->
+    <span class="tick-item hi"><span class="dot"></span>Qlik Sense</span>
+    <span class="tick-item">QlikView</span>
+    <span class="tick-item hi"><span class="dot"></span>Power BI</span>
+    <span class="tick-item">DAX</span>
+    <span class="tick-item hi"><span class="dot"></span>SQL</span>
+    <span class="tick-item">AWS Athena</span>
+    <span class="tick-item hi"><span class="dot"></span>ETL Pipelines</span>
+    <span class="tick-item">NPrinting</span>
+    <span class="tick-item hi"><span class="dot"></span>Star Schema</span>
+    <span class="tick-item">M Query</span>
+    <span class="tick-item hi"><span class="dot"></span>Power Query</span>
+    <span class="tick-item">Writeback Solutions</span>
+    <span class="tick-item hi"><span class="dot"></span>AWS S3 · EC2</span>
+    <span class="tick-item">Data Modeling</span>
+    <span class="tick-item hi"><span class="dot"></span>Row-Level Security</span>
+    <span class="tick-item">Performance Tuning</span>
+    <span class="tick-item hi"><span class="dot"></span>SAP SQL</span>
+    <span class="tick-item">QMC</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label reveal"><span class="sec-num">// 01</span><div class="sec-line"></div><span class="sec-tag">About</span></div>
+  <h2 class="sec-heading reveal reveal-delay-1">THE <span>ANALYST</span></h2>
+  <div class="about-grid">
+    <div class="about-left reveal reveal-delay-1">
+      <p>I'm a <strong>Senior BI Consultant</strong> with 6+ years building enterprise data platforms that actually get used. My work spans the full stack — from raw SQL and ETL design to pixel-perfect dashboards that Finance directors rely on daily.</p>
+      <p>Currently at <strong>Motherson Sumi</strong>, I lead BI across Porsche, AUDI, and Skoda simultaneously — each with its own data architecture, stakeholders, and delivery cadence. I thrive in that complexity.</p>
+      <p>My signature move? <em>Automation</em>. I've consistently eliminated 85–95% of manual reporting effort by architecting smart pipelines. Good BI doesn't just look sharp — it saves teams hours every week.</p>
+      <div class="skill-bars" id="skillBars">
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Qlik Sense / QlikView</span><span class="skill-pct">95%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="95" style="width:0%;background:linear-gradient(90deg,#00d4ff,#0097b2)"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Power BI / DAX</span><span class="skill-pct">90%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="90" style="width:0%;background:linear-gradient(90deg,#7c3aed,#c084fc)"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">SQL / AWS Athena</span><span class="skill-pct">88%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="88" style="width:0%;background:linear-gradient(90deg,#ff6b35,#ffb400)"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">ETL & Data Modeling</span><span class="skill-pct">92%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="92" style="width:0%;background:linear-gradient(90deg,#00e5a0,#00d4ff)"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-card reveal reveal-delay-2">
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-label">Role</div><div class="info-val">Senior BI Consultant</div></div>
+        <div class="info-cell"><div class="info-label">Company</div><div class="info-val">Motherson Sumi</div></div>
+        <div class="info-cell"><div class="info-label">Experience</div><div class="info-val">6+ Years</div></div>
+        <div class="info-cell"><div class="info-label">Projects</div><div class="info-val">18+ Delivered</div></div>
+        <div class="info-cell"><div class="info-label">Email</div><div class="info-val"><a href="mailto:deepuk.sharma8@gmail.com">deepuk.sharma8@gmail.com</a></div></div>
+        <div class="info-cell"><div class="info-label">LinkedIn</div><div class="info-val"><a href="https://linkedin.com/in/biqlikker" target="_blank">biqlikker ↗</a></div></div>
+        <div class="info-cell"><div class="info-label">Education</div><div class="info-val">M.Sc. Amity University</div></div>
+        <div class="info-cell"><div class="info-label">Phone</div><div class="info-val">+91 82873 95605</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-label reveal"><span class="sec-num">// 02</span><div class="sec-line"></div><span class="sec-tag">Work</span></div>
+  <h2 class="sec-heading reveal reveal-delay-1">18+ <span>PROJECTS</span></h2>
+  <p class="projects-intro reveal reveal-delay-2">End-to-end BI delivery across automotive, CRM, aftersales, finance, and academia. From data architecture to boardroom dashboards — full ownership, every time.</p>
+
+  <!-- TABS -->
+  <div class="proj-tabs reveal">
+    <button class="proj-tab active" onclick="switchProj(this,'featured')">Featured</button>
+    <button class="proj-tab" onclick="switchProj(this,'all')">All 18+ Projects</button>
+  </div>
+
+  <!-- FEATURED PANEL -->
+  <div class="proj-panel active" id="featured">
+
+    <!-- PORSCHE -->
+    <div class="project-block">
+      <div class="project-info reveal">
+        <div class="project-badge" style="border-color:rgba(0,255,200,.4);color:#00ffc8;"><svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#00ffc8"/></svg>Porsche · Motherson Sumi</div>
+        <h3 class="project-title" style="color:#00ffc8;">Aftersales<br>Analytics Platform</h3>
+        <p class="project-desc">Real-time dealership dashboards on AWS Athena delivering visibility into parts ageing, labor utilization, and service hours. Finance & Aftersales stakeholders moved from weekly spreadsheets to live KPI monitoring.</p>
+        <div class="project-impact">
+          <div><div class="impact-num" style="color:#00ffc8;">36K</div><div class="impact-label">ROs Tracked</div></div>
+          <div><div class="impact-num" style="color:#00ffc8;">+8%</div><div class="impact-label">QoQ Growth</div></div>
+        </div>
+        <div class="project-tags"><span class="ptag">AWS Athena</span><span class="ptag">Qlik Sense</span><span class="ptag">KPI Design</span><span class="ptag">Parts Ageing</span><span class="ptag">Jan 2025 – Present</span></div>
+      </div>
+      <div class="project-dash dash-porsche reveal reveal-delay-2">
+        <div class="d-porsche">
+          <div class="d-p-top"><span class="d-p-title">Porsche Aftersales · Throughput</span><div class="d-p-dots"><div class="d-p-dot" style="background:#00ffc8;box-shadow:0 0 6px #00ffc8"></div><div class="d-p-dot" style="background:rgba(0,255,200,.3)"></div><div class="d-p-dot" style="background:rgba(0,255,200,.15)"></div></div></div>
+          <div class="d-p-body">
+            <div class="d-p-kpi"><div class="d-p-k"><div class="d-p-k-v">36.0K</div><div class="d-p-k-l">TOTAL ROs</div></div><div class="d-p-k"><div class="d-p-k-v">4.2K</div><div class="d-p-k-l">MTD</div></div><div class="d-p-k"><div class="d-p-k-v">+8%</div><div class="d-p-k-l">MOM %</div></div></div>
+            <div class="d-p-chart-row">
+              <div class="d-p-card"><div class="d-p-card-title">Segment Trend · PM / GR / BP</div><svg viewBox="0 0 200 55" style="width:100%;height:55px;"><polyline points="8,46 30,36 52,41 74,26 96,22 118,30 140,18 162,13 184,8 196,6" fill="none" stroke="#00ffc8" stroke-width="1.5" opacity="0.9"/><polyline points="8,50 30,45 52,48 74,40 96,38 118,42 140,36 162,32 184,28 196,26" fill="none" stroke="rgba(0,255,200,.4)" stroke-width="1" stroke-dasharray="3,2"/><polyline points="8,53 30,52 52,53 74,49 96,48 118,50 140,46 162,44 184,41 196,40" fill="none" stroke="rgba(0,255,200,.2)" stroke-width="1" stroke-dasharray="3,2"/></svg></div>
+              <div class="d-p-card"><div class="d-p-card-title">RO Type Wise</div><svg viewBox="0 0 80 70" style="width:80px;height:70px;margin:0 auto;display:block;"><circle cx="40" cy="38" r="26" fill="none" stroke="#041418" stroke-width="10"/><circle cx="40" cy="38" r="26" fill="none" stroke="#00ffc8" stroke-width="10" stroke-dasharray="74.5 89.1" stroke-dashoffset="0" transform="rotate(-90 40 38)" opacity="0.9"/><circle cx="40" cy="38" r="26" fill="none" stroke="rgba(0,255,200,.4)" stroke-width="10" stroke-dasharray="66.1 97.5" stroke-dashoffset="-74.5" transform="rotate(-90 40 38)"/><circle cx="40" cy="38" r="26" fill="none" stroke="rgba(0,255,200,.2)" stroke-width="10" stroke-dasharray="22.8 140.8" stroke-dashoffset="-140.6" transform="rotate(-90 40 38)"/><text x="40" y="35" text-anchor="middle" fill="#00ffc8" font-size="8" font-family="JetBrains Mono">45%</text><text x="40" y="44" text-anchor="middle" fill="rgba(0,255,200,.4)" font-size="6" font-family="JetBrains Mono">PM</text></svg></div>
+            </div>
+            <div style="margin-top:.45rem"><div class="d-p-card"><div class="d-p-card-title">Daily Detail</div><div class="d-p-table"><div class="d-p-tr head"><span>DATE</span><span class="d-p-r">VINS</span><span class="d-p-r">THROUGHPUT</span></div><div class="d-p-tr data"><span>15 Nov</span><span class="d-p-r">315</span><span class="d-p-r">316</span></div><div class="d-p-tr data"><span>14 Nov</span><span class="d-p-r">294</span><span class="d-p-r">297</span></div><div class="d-p-tr data"><span>13 Nov</span><span class="d-p-r">289</span><span class="d-p-r">293</span></div><div class="d-p-tr total"><span>TOTAL</span><span class="d-p-r">26.4K</span><span class="d-p-r">36.0K</span></div></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKODA -->
+    <div class="project-block flip">
+      <div class="project-info reveal">
+        <div class="project-badge" style="border-color:rgba(255,180,0,.4);color:#ffb400;"><svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#ffb400"/></svg>Skoda · Motherson Sumi</div>
+        <h3 class="project-title" style="color:#ffb400;">Sales Analytics<br>& Report Automation</h3>
+        <p class="project-desc">End-to-end Power BI + AWS Athena dashboards with fully automated O&C, DSR, and ETBR pipelines. Dealer performance boards now refresh automatically every morning — saving 95% of manual effort.</p>
+        <div class="project-impact">
+          <div><div class="impact-num" style="color:#ffb400;">95%</div><div class="impact-label">Effort Saved</div></div>
+          <div><div class="impact-num" style="color:#ffb400;">12K+</div><div class="impact-label">Units Tracked</div></div>
+        </div>
+        <div class="project-tags"><span class="ptag">Power BI</span><span class="ptag">SQL</span><span class="ptag">AWS Athena</span><span class="ptag">DSR Automation</span><span class="ptag">Oct 2023 – Present</span></div>
+      </div>
+      <div class="project-dash dash-skoda reveal reveal-delay-2">
+        <div class="d-skoda">
+          <div class="d-s-top"><span class="d-s-title">Skoda India · Sales Analytics</span><span class="d-s-badge">AUTO-REFRESH ✓</span></div>
+          <div class="d-s-body">
+            <div class="d-s-kpi"><div class="d-s-k" style="border-bottom-color:#ffb400"><div class="d-s-k-v">12,480</div><div class="d-s-k-l">TOTAL UNITS</div></div><div class="d-s-k" style="border-bottom-color:rgba(255,180,0,.5)"><div class="d-s-k-v">+14.2%</div><div class="d-s-k-l">YOY GROWTH</div></div><div class="d-s-k" style="border-bottom-color:rgba(255,180,0,.3)"><div class="d-s-k-v">87.4%</div><div class="d-s-k-l">TARGET ACH.</div></div><div class="d-s-k" style="border-bottom-color:rgba(0,229,160,.6)"><div class="d-s-k-v" style="color:#00e5a0">95%</div><div class="d-s-k-l">EFFORT SAVED</div></div></div>
+            <div class="d-s-row">
+              <div class="d-s-card"><div class="d-s-card-title">Monthly Sales Volume</div><div class="d-s-bars"><div class="d-s-bar" style="height:40px;background:rgba(255,180,0,.3)"></div><div class="d-s-bar" style="height:53px;background:rgba(255,180,0,.4)"></div><div class="d-s-bar" style="height:46px;background:rgba(255,180,0,.35)"></div><div class="d-s-bar" style="height:60px;background:rgba(255,180,0,.5)"></div><div class="d-s-bar" style="height:55px;background:rgba(255,180,0,.45)"></div><div class="d-s-bar" style="height:44px;background:rgba(255,180,0,.35)"></div><div class="d-s-bar" style="height:50px;background:#ffb400;opacity:.7"></div><div class="d-s-bar" style="height:65px;background:#ffb400;opacity:.8"></div><div class="d-s-bar" style="height:70px;background:#ffb400;opacity:.9"></div><div class="d-s-bar" style="height:76px;background:#ffb400"></div><div class="d-s-bar" style="height:58px;background:#ff8c00"></div><div class="d-s-bar" style="height:30px;background:rgba(255,180,0,.2)"></div></div></div>
+              <div class="d-s-card"><div class="d-s-card-title">Model Mix</div><div class="d-s-mix"><div class="d-s-mix-row"><span class="d-s-mix-label">KUSHAQ</span><div class="d-s-mix-track"><div class="d-s-mix-fill" style="width:100%"></div></div><span class="d-s-mix-val">35%</span></div><div class="d-s-mix-row"><span class="d-s-mix-label">SLAVIA</span><div class="d-s-mix-track"><div class="d-s-mix-fill" style="width:71%"></div></div><span class="d-s-mix-val">25%</span></div><div class="d-s-mix-row"><span class="d-s-mix-label">KODIAQ</span><div class="d-s-mix-track"><div class="d-s-mix-fill" style="width:54%"></div></div><span class="d-s-mix-val">19%</span></div><div class="d-s-mix-row"><span class="d-s-mix-label">OTHERS</span><div class="d-s-mix-track"><div class="d-s-mix-fill" style="width:60%"></div></div><span class="d-s-mix-val">21%</span></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDI -->
+    <div class="project-block">
+      <div class="project-info reveal">
+        <div class="project-badge" style="border-color:rgba(160,80,255,.4);color:#c084fc;"><svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#c084fc"/></svg>AUDI · Motherson Sumi</div>
+        <h3 class="project-title" style="color:#c084fc;">Customer Data<br>Platform (CDP)</h3>
+        <p class="project-desc">Data Hygiene dashboards to improve CRM data quality across AUDI's dealer network. Built a Qlik Sense Writeback solution enabling dealers to push customer inputs directly into the BI platform — no external forms needed.</p>
+        <div class="project-impact">
+          <div><div class="impact-num" style="color:#c084fc;">98.4%</div><div class="impact-label">Data Quality</div></div>
+          <div><div class="impact-num" style="color:#c084fc;">Daily</div><div class="impact-label">ETL Refresh</div></div>
+        </div>
+        <div class="project-tags"><span class="ptag">Qlik Sense</span><span class="ptag">NPrinting</span><span class="ptag">Writeback</span><span class="ptag">CRM</span><span class="ptag">Aug 2022 – May 2024</span></div>
+      </div>
+      <div class="project-dash dash-audi reveal reveal-delay-2">
+        <div class="d-audi">
+          <div class="d-a-top"><span class="d-a-title">AUDI CDP · Data Quality &amp; CRM</span><div class="d-a-pills"><span class="d-a-pill">Writeback ON</span><span class="d-a-pill">ETL LIVE</span></div></div>
+          <div class="d-a-body">
+            <div class="d-a-kpi"><div class="d-a-k"><div class="d-a-k-v">98.4%</div><div class="d-a-k-l">DATA QUALITY</div></div><div class="d-a-k"><div class="d-a-k-v">142K</div><div class="d-a-k-l">RECORDS CLEAN</div></div><div class="d-a-k"><div class="d-a-k-v">Daily</div><div class="d-a-k-l">REFRESH CYCLE</div></div></div>
+            <div class="d-a-row">
+              <div class="d-a-card"><div class="d-a-card-title">Hygiene Trend</div><svg viewBox="0 0 150 55" style="width:100%;height:55px;"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(160,80,255,0.3)"/><stop offset="100%" stop-color="rgba(160,80,255,0)"/></linearGradient></defs><path d="M5,48 C20,42 35,28 55,22 C75,18 90,13 115,8 C130,5 140,3 145,2 L145,55 L5,55Z" fill="url(#ag)"/><polyline points="5,48 20,42 35,28 55,22 75,18 90,13 115,8 130,5 145,2" fill="none" stroke="#c084fc" stroke-width="1.5"/><circle cx="145" cy="2" r="2.5" fill="#c084fc"><animate attributeName="r" values="2;3.5;2" dur="1.5s" repeatCount="indefinite"/></circle></svg></div>
+              <div class="d-a-card"><div class="d-a-card-title">Record Status</div><svg viewBox="0 0 80 70" style="width:80px;height:70px;margin:0 auto;display:block;"><circle cx="40" cy="38" r="26" fill="none" stroke="#0a0416" stroke-width="10"/><circle cx="40" cy="38" r="26" fill="none" stroke="#c084fc" stroke-width="10" stroke-dasharray="142.9 20.5" stroke-dashoffset="0" transform="rotate(-90 40 38)" opacity="0.9"/><circle cx="40" cy="38" r="26" fill="none" stroke="rgba(160,80,255,.25)" stroke-width="10" stroke-dasharray="20.5 142.9" stroke-dashoffset="-142.9" transform="rotate(-90 40 38)"/><text x="40" y="35" text-anchor="middle" fill="#c084fc" font-size="9" font-family="JetBrains Mono">98%</text><text x="40" y="44" text-anchor="middle" fill="rgba(160,80,255,.5)" font-size="6" font-family="JetBrains Mono">CLEAN</text></svg></div>
+            </div>
+            <div style="margin-top:.45rem" class="d-a-card"><div class="d-a-card-title">ETL Pipeline Status</div><div style="display:flex;flex-direction:column;gap:.3rem;margin-top:.2rem"><div style="display:flex;justify-content:space-between"><span style="font-size:.5rem;color:rgba(160,80,255,.6);font-family:'JetBrains Mono',monospace">Daily Sales Alert (NPrinting)</span><span style="font-size:.5rem;color:#00e5a0;font-family:'JetBrains Mono',monospace">✓ SENT</span></div><div style="display:flex;justify-content:space-between"><span style="font-size:.5rem;color:rgba(160,80,255,.6);font-family:'JetBrains Mono',monospace">CRM Writeback Sync</span><span style="font-size:.5rem;color:#00e5a0;font-family:'JetBrains Mono',monospace">✓ LIVE</span></div><div style="display:flex;justify-content:space-between"><span style="font-size:.5rem;color:rgba(160,80,255,.6);font-family:'JetBrains Mono',monospace">Monthly ETL Cycle</span><span style="font-size:.5rem;color:#ffb400;font-family:'JetBrains Mono',monospace">⟳ RUNNING</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPEND -->
+    <div class="project-block flip">
+      <div class="project-info reveal">
+        <div class="project-badge" style="border-color:rgba(255,80,80,.4);color:#ff5050;"><svg width="6" height="6"><circle cx="3" cy="3" r="3" fill="#ff5050"/></svg>Spend Analytics · Motherson Sumi</div>
+        <h3 class="project-title" style="color:#ff5050;">Enterprise Spend<br>Analytics</h3>
+        <p class="project-desc">Power BI dashboards integrating SQL & Excel for comprehensive spend visibility. KPI frameworks for cost optimization and automated workflows — saving 85% of reporting effort and identifying ₹31L in savings.</p>
+        <div class="project-impact">
+          <div><div class="impact-num" style="color:#ff5050;">85%</div><div class="impact-label">Effort Reduced</div></div>
+          <div><div class="impact-num" style="color:#00e5a0;">₹31L</div><div class="impact-label">Savings Found</div></div>
+        </div>
+        <div class="project-tags"><span class="ptag">Power BI</span><span class="ptag">DAX</span><span class="ptag">SQL</span><span class="ptag">KPI Design</span><span class="ptag">Jul 2023 – Jun 2024</span></div>
+      </div>
+      <div class="project-dash dash-spend reveal reveal-delay-2">
+        <div class="d-spend">
+          <div class="d-sp-top"><span class="d-sp-title">SPEND ANALYTICS · FY2025</span><span class="d-sp-saving">↓ ₹31L SAVED</span></div>
+          <div class="d-sp-body">
+            <div class="d-sp-kpi"><div class="d-sp-k" style="border-left-color:#ff5050"><div class="d-sp-k-v" style="color:#ff5050">₹4.8Cr</div><div class="d-sp-k-l">TOTAL SPEND</div></div><div class="d-sp-k" style="border-left-color:#00e5a0"><div class="d-sp-k-v" style="color:#00e5a0">-6.2%</div><div class="d-sp-k-l">YOY REDUCTION</div></div><div class="d-sp-k" style="border-left-color:rgba(255,80,80,.5)"><div class="d-sp-k-v" style="color:rgba(255,80,80,.8)">247</div><div class="d-sp-k-l">ACTIVE VENDORS</div></div><div class="d-sp-k" style="border-left-color:#ffd166"><div class="d-sp-k-v" style="color:#ffd166">34%</div><div class="d-sp-k-l">IT INFRA SHARE</div></div></div>
+            <div class="d-sp-row">
+              <div class="d-sp-card"><div class="d-sp-card-title">Spend vs Budget · Quarterly</div><svg viewBox="0 0 160 62" style="width:100%;height:62px;"><line x1="0" y1="20" x2="160" y2="20" stroke="rgba(255,80,80,.08)" stroke-width="1" stroke-dasharray="4,4"/><line x1="0" y1="40" x2="160" y2="40" stroke="rgba(255,80,80,.08)" stroke-width="1" stroke-dasharray="4,4"/><line x1="0" y1="21" x2="160" y2="21" stroke="rgba(255,209,102,.35)" stroke-width="1" stroke-dasharray="6,3"/><polyline points="8,42 48,36 88,38 128,26 152,20" fill="none" stroke="#ff5050" stroke-width="2"/><circle cx="8" cy="42" r="2" fill="#ff5050"/><circle cx="48" cy="36" r="2" fill="#ff5050"/><circle cx="88" cy="38" r="2" fill="#ff5050"/><circle cx="128" cy="26" r="2" fill="#00e5a0"/><circle cx="152" cy="20" r="2" fill="#00e5a0"/><text x="5" y="58" fill="rgba(255,80,80,.3)" font-size="7" font-family="JetBrains Mono">Q1</text><text x="45" y="58" fill="rgba(255,80,80,.3)" font-size="7" font-family="JetBrains Mono">Q2</text><text x="85" y="58" fill="rgba(255,80,80,.3)" font-size="7" font-family="JetBrains Mono">Q3</text><text x="125" y="58" fill="rgba(0,229,160,.5)" font-size="7" font-family="JetBrains Mono">Q4</text></svg></div>
+              <div class="d-sp-card"><div class="d-sp-card-title">Savings Tracker</div><div class="d-sp-savings-item"><span class="d-sp-s-name">IT Renegotiation</span><span class="d-sp-s-val">₹12.4L</span></div><div class="d-sp-savings-item"><span class="d-sp-s-name">Logistics</span><span class="d-sp-s-val">₹8.8L</span></div><div class="d-sp-savings-item"><span class="d-sp-s-name">Facilities</span><span class="d-sp-s-val">₹6.1L</span></div><div class="d-sp-savings-item"><span class="d-sp-s-name">Vendors</span><span class="d-sp-s-val">₹3.7L</span></div><div style="display:flex;justify-content:space-between;padding:.28rem 0;font-family:'JetBrains Mono',monospace;font-size:.52rem;border-top:1px solid rgba(255,80,80,.2);margin-top:.25rem;"><span style="color:#fff;font-weight:600">TOTAL</span><span style="color:#00e5a0;font-weight:700">₹31.0L</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end featured panel -->
+
+  <!-- ALL PROJECTS PANEL -->
+  <div class="proj-panel" id="all">
+    <div class="all-projects-grid">
+
+      <!-- Colors cycle through 6 accent shades -->
+      <div class="mini-proj reveal" style="--c:#00ffc8"><style>.mini-proj:nth-child(1)::before{background:linear-gradient(90deg,#00ffc8,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00ffc8">Porsche · Motherson Sumi</div>
+        <div class="mini-proj-title">Aftersales Throughput Dashboard</div>
+        <div class="mini-proj-desc">Real-time parts, labor & service hour KPIs via AWS Athena. Parts Ageing reports for proactive inventory management.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Qlik Sense</span><span class="mini-ptag">AWS Athena</span><span class="mini-ptag">2025</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-1" style="--c:#ffb400"><style>.mini-proj:nth-child(2)::before{background:linear-gradient(90deg,#ffb400,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ffb400">Skoda · Motherson Sumi</div>
+        <div class="mini-proj-title">Sales Analytics & DSR Automation</div>
+        <div class="mini-proj-desc">95% effort reduction automating O&C, DSR and ETBR reports. End-to-end Power BI + SQL pipeline.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Power BI</span><span class="mini-ptag">AWS Athena</span><span class="mini-ptag">2023–Present</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-2" style="--c:#c084fc"><style>.mini-proj:nth-child(3)::before{background:linear-gradient(90deg,#c084fc,transparent)}</style>
+        <div class="mini-proj-client" style="color:#c084fc">AUDI · Motherson Sumi</div>
+        <div class="mini-proj-title">Customer Data Platform (CDP)</div>
+        <div class="mini-proj-desc">Data Hygiene dashboards & Qlik Sense Writeback. CRM governance across dealership network.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Qlik Sense</span><span class="mini-ptag">Writeback</span><span class="mini-ptag">2022–2024</span></div>
+      </div>
+
+      <div class="mini-proj reveal"><style>.mini-proj:nth-child(4)::before{background:linear-gradient(90deg,#ff5050,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ff5050">Motherson Sumi</div>
+        <div class="mini-proj-title">Enterprise Spend Analytics</div>
+        <div class="mini-proj-desc">Power BI dashboards across SQL & Excel. KPI frameworks for cost optimization. ₹31L savings identified.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Power BI</span><span class="mini-ptag">DAX</span><span class="mini-ptag">2023–2024</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-1"><style>.mini-proj:nth-child(5)::before{background:linear-gradient(90deg,#00e5a0,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00e5a0">AUDI · Motherson Sumi</div>
+        <div class="mini-proj-title">NPrinting Daily Sales Alerts</div>
+        <div class="mini-proj-desc">Automated daily sales alert reports via NPrinting enabling proactive monitoring and stakeholder notifications.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">NPrinting</span><span class="mini-ptag">QMC</span><span class="mini-ptag">2022–2024</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-2"><style>.mini-proj:nth-child(6)::before{background:linear-gradient(90deg,#ffd166,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ffd166">Motherson Sumi</div>
+        <div class="mini-proj-title">Data Hygiene Automation Framework</div>
+        <div class="mini-proj-desc">Automated ingestion scripts and hygiene rules. Reduced data redundancy and improved sanity across enterprise datasets.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">SQL</span><span class="mini-ptag">ETL</span><span class="mini-ptag">Jun–Nov 2022</span></div>
+      </div>
+
+      <div class="mini-proj reveal"><style>.mini-proj:nth-child(7)::before{background:linear-gradient(90deg,#00d4ff,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00d4ff">Team Computers</div>
+        <div class="mini-proj-title">Qlik Sense Dashboard Optimization</div>
+        <div class="mini-proj-desc">Performance tuning of legacy BI solutions via data model optimization and query restructuring.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Qlik Sense</span><span class="mini-ptag">QlikView</span><span class="mini-ptag">2021–2022</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-1"><style>.mini-proj:nth-child(8)::before{background:linear-gradient(90deg,#c084fc,transparent)}</style>
+        <div class="mini-proj-client" style="color:#c084fc">Team Computers</div>
+        <div class="mini-proj-title">KPI Reporting Framework</div>
+        <div class="mini-proj-desc">Defined and implemented business KPI frameworks aligned with multi-stakeholder reporting requirements across clients.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">QlikView</span><span class="mini-ptag">KPI Design</span><span class="mini-ptag">2021–2022</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-2"><style>.mini-proj:nth-child(9)::before{background:linear-gradient(90deg,#ff6b35,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ff6b35">Team Computers</div>
+        <div class="mini-proj-title">Qlik Server Monitoring & Governance</div>
+        <div class="mini-proj-desc">Proactive server monitoring ensuring data synchronization, access management and application performance across Qlik stack.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">QMC</span><span class="mini-ptag">Access Mgmt</span><span class="mini-ptag">2021–2022</span></div>
+      </div>
+
+      <div class="mini-proj reveal"><style>.mini-proj:nth-child(10)::before{background:linear-gradient(90deg,#00ffc8,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00ffc8">Evelyn Learning Systems</div>
+        <div class="mini-proj-title">Academic Analytics Dashboards</div>
+        <div class="mini-proj-desc">Built data analysis dashboards for research teams. Insights derived from complex institutional datasets supporting research reporting.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Excel</span><span class="mini-ptag">Data Analysis</span><span class="mini-ptag">2019–2021</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-1"><style>.mini-proj:nth-child(11)::before{background:linear-gradient(90deg,#ffd166,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ffd166">Evelyn Learning Systems</div>
+        <div class="mini-proj-title">Institutional Data Cleansing Project</div>
+        <div class="mini-proj-desc">Large-scale data cleansing, transformation, and visualization projects supporting institutional performance reporting needs.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Excel</span><span class="mini-ptag">Data Cleansing</span><span class="mini-ptag">2019–2021</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-2"><style>.mini-proj:nth-child(12)::before{background:linear-gradient(90deg,#00e5a0,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00e5a0">Evelyn Learning Systems</div>
+        <div class="mini-proj-title">Learner Analytics & Training Reporting</div>
+        <div class="mini-proj-desc">Mentored learners in Excel and data analysis concepts while delivering training dashboards and analytical thinking frameworks.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Excel</span><span class="mini-ptag">Analytics</span><span class="mini-ptag">2019–2021</span></div>
+      </div>
+
+      <div class="mini-proj reveal"><style>.mini-proj:nth-child(13)::before{background:linear-gradient(90deg,#ff5050,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ff5050">Skoda · Motherson Sumi</div>
+        <div class="mini-proj-title">Dealer Performance Management Board</div>
+        <div class="mini-proj-desc">Sales strategy and dealer performance management dashboard feeding real-time data to Sales leadership for decision support.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Power BI</span><span class="mini-ptag">SQL</span><span class="mini-ptag">2023–Present</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-1"><style>.mini-proj:nth-child(14)::before{background:linear-gradient(90deg,#c084fc,transparent)}</style>
+        <div class="mini-proj-client" style="color:#c084fc">AUDI · Motherson Sumi</div>
+        <div class="mini-proj-title">CRM Data Quality Governance Dashboard</div>
+        <div class="mini-proj-desc">Standalone hygiene dashboards improving understanding and governance of CRM datasets across the dealer network.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Qlik Sense</span><span class="mini-ptag">Data Quality</span><span class="mini-ptag">2022–2024</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-2"><style>.mini-proj:nth-child(15)::before{background:linear-gradient(90deg,#00d4ff,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00d4ff">Porsche · Motherson Sumi</div>
+        <div class="mini-proj-title">Parts Ageing & Inventory Intelligence</div>
+        <div class="mini-proj-desc">Parts Ageing reports enabling proactive inventory management and aftersales strategy decisions for Finance teams.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">AWS Athena</span><span class="mini-ptag">Inventory</span><span class="mini-ptag">2025</span></div>
+      </div>
+
+      <div class="mini-proj reveal"><style>.mini-proj:nth-child(16)::before{background:linear-gradient(90deg,#ffb400,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ffb400">Motherson Sumi</div>
+        <div class="mini-proj-title">Star Schema Modeling for Reporting Layer</div>
+        <div class="mini-proj-desc">Designed scalable star and snowflake schema data models underpinning multiple concurrent reporting layers for automotive clients.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Star Schema</span><span class="mini-ptag">ETL</span><span class="mini-ptag">2022–Present</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-1"><style>.mini-proj:nth-child(17)::before{background:linear-gradient(90deg,#00ffc8,transparent)}</style>
+        <div class="mini-proj-client" style="color:#00ffc8">Motherson Sumi</div>
+        <div class="mini-proj-title">Row-Level Security (RLS) Implementation</div>
+        <div class="mini-proj-desc">Implemented RLS across Power BI Service and Qlik environments ensuring region- and role-based data access controls for enterprise users.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">Power BI</span><span class="mini-ptag">RLS</span><span class="mini-ptag">2022–Present</span></div>
+      </div>
+
+      <div class="mini-proj reveal reveal-delay-2"><style>.mini-proj:nth-child(18)::before{background:linear-gradient(90deg,#ff6b35,transparent)}</style>
+        <div class="mini-proj-client" style="color:#ff6b35">Team Computers</div>
+        <div class="mini-proj-title">Legacy BI Migration & Documentation</div>
+        <div class="mini-proj-desc">Developed training materials and documentation for existing Qlik applications during migration projects, enabling knowledge transfer across teams.</div>
+        <div class="mini-proj-tags"><span class="mini-ptag">QlikView</span><span class="mini-ptag">Documentation</span><span class="mini-ptag">2021–2022</span></div>
+      </div>
+
+    </div>
+  </div><!-- end all panel -->
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="sec-label reveal"><span class="sec-num">// 03</span><div class="sec-line"></div><span class="sec-tag">Impact</span></div>
+  <h2 class="sec-heading reveal reveal-delay-1">KEY <span>IMPACT</span></h2>
+  <div class="achieve-grid">
+    <div class="achieve-cell reveal"><style>.achieve-cell:nth-child(1)::before{background:linear-gradient(90deg,var(--accent),transparent)}</style>
+      <div class="achieve-num" style="color:var(--accent)">95%</div>
+      <div class="achieve-title">Skoda Report Automation</div>
+      <div class="achieve-desc">Fully automated O&C, DSR and ETBR pipelines. What took hours now runs silently before anyone arrives.</div>
+    </div>
+    <div class="achieve-cell reveal reveal-delay-1"><style>.achieve-cell:nth-child(2)::before{background:linear-gradient(90deg,var(--accent3),transparent)}</style>
+      <div class="achieve-num" style="color:var(--accent3)">85%</div>
+      <div class="achieve-title">Spend Analytics Efficiency</div>
+      <div class="achieve-desc">Power BI automation freed Finance from data prep — enabling focus on strategy and cost optimization.</div>
+    </div>
+    <div class="achieve-cell reveal reveal-delay-2"><style>.achieve-cell:nth-child(3)::before{background:linear-gradient(90deg,var(--green),transparent)}</style>
+      <div class="achieve-num" style="color:var(--green)">18+</div>
+      <div class="achieve-title">End-to-End Projects</div>
+      <div class="achieve-desc">From data ingestion to C-suite dashboards — across automotive, CRM, finance and academic sectors.</div>
+    </div>
+    <div class="achieve-cell reveal reveal-delay-3"><style>.achieve-cell:nth-child(4)::before{background:linear-gradient(90deg,var(--yellow),transparent)}</style>
+      <div class="achieve-num" style="color:var(--yellow)">1st</div>
+      <div class="achieve-title">Enterprise Writeback</div>
+      <div class="achieve-desc">First-of-its-kind Qlik Sense Writeback — letting AUDI dealers input data directly inside the BI platform.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HIRE ME ===== -->
+<section id="hire">
+  <div class="hire-inner">
+    <div class="hire-left reveal">
+      <h2>LET'S <span>BUILD</span><br>SOMETHING<br>TOGETHER</h2>
+      <p>Whether you have an open role, a data problem to solve, or a BI initiative to kick off — I'd love to hear about it. Reach out via call, email, or LinkedIn and let's talk.</p>
+      <!-- Resume download -->
+      <a href="Deepanshu_Kumar_Sharma_Resume_18_03.pdf" download="Deepanshu_Sharma_Resume.pdf" class="hire-resume-btn">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 12h10"/></svg>
+        Download Resume
+      </a>
+    </div>
+
+    <div class="hire-right reveal reveal-delay-1">
+
+      <!-- CALL -->
+      <a href="tel:+918287395605" class="hire-card call">
+        <div class="hire-icon green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="1.8" stroke-linecap="round">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="hire-card-title">Call Me</div>
+          <div class="hire-card-sub">+91 82873 95605</div>
+        </div>
+        <span class="hire-arrow">→</span>
+      </a>
+
+      <!-- MAIL -->
+      <a id="mailBtn" href="#" class="hire-card mail" onclick="openMail(event)">
+        <div class="hire-icon blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="hire-card-title">Send an Email</div>
+          <div class="hire-card-sub">deepuk.sharma8@gmail.com</div>
+        </div>
+        <span class="hire-arrow">→</span>
+      </a>
+
+      <!-- LINKEDIN -->
+      <a href="https://linkedin.com/in/biqlikker" target="_blank" class="hire-card linkedin">
+        <div class="hire-icon purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="hire-card-title">Connect on LinkedIn</div>
+          <div class="hire-card-sub">linkedin.com/in/biqlikker</div>
+        </div>
+        <span class="hire-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div>
+    <div class="footer-name">DEEPANSHU SHARMA</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.35rem;letter-spacing:.08em;">Senior BI Consultant · Open to Opportunities Globally</div>
+  </div>
+  <div class="footer-copy">© 2025 · All Rights Reserved</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='50px';ring.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+});
+
+/* HERO CANVAS */
+const canvas=document.getElementById('hero-canvas'),ctx=canvas.getContext('2d');
+let W,H,pts=[];
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+resize();window.addEventListener('resize',()=>{resize();init();});
+function init(){pts=[];const c=Math.floor(W*H/9000);for(let i=0;i<c;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.4,col:Math.random()>.85?'rgba(0,212,255,':'rgba(124,58,237,'});}
+init();
+(function draw(){
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W*.3,H*.5,0,W*.3,H*.5,W*.6);
+  g.addColorStop(0,'rgba(0,40,80,.4)');g.addColorStop(.5,'rgba(10,5,30,.2)');g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  pts.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.col+'.6)';ctx.fill();
+    for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[j].x-p.x,pts[j].y-p.y);if(d<90){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(0,212,255,${(1-d/90)*.07})`;ctx.lineWidth=.5;ctx.stroke();}}
+  });
+  requestAnimationFrame(draw);
+})();
+
+/* PROJECT TABS */
+function switchProj(btn,panelId){
+  document.querySelectorAll('.proj-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.proj-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+  // Re-trigger reveals in newly shown panel
+  document.querySelectorAll('#'+panelId+' .reveal').forEach((el,i)=>{
+    el.classList.remove('visible');
+    setTimeout(()=>el.classList.add('visible'),i*40);
+  });
+}
+
+/* SCROLL REVEAL */
+const revEls=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*60);obs.unobserve(e.target);}});},{threshold:.06});
+revEls.forEach(el=>obs.observe(el));
+
+/* SKILL BARS */
+const skillObs=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.querySelectorAll('.skill-fill').forEach(bar=>{setTimeout(()=>{bar.style.width=bar.dataset.w+'%';},200);});skillObs.unobserve(entry.target);}});},{threshold:.3});
+const sb=document.getElementById('skillBars');if(sb)skillObs.observe(sb);
+
+/* MAIL COMPOSE */
+function openMail(e){
+  e.preventDefault();
+  const subject = encodeURIComponent("Opportunity for Deepanshu Sharma — BI Consultant");
+  const body = encodeURIComponent(`Hi Deepanshu,
+
+I hope you're doing well.
+
+We came across your profile and were impressed with your experience in BI and analytics. We currently have an opportunity that aligns well with your skill set.
+
+We would love to connect with you. Please share your updated resume.
+
+I've attached the job description for your reference.
+
+Best regards,
+[Your Name]
+[Company Name]`);
+  window.location.href = `mailto:deepuk.sharma8@gmail.com?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
