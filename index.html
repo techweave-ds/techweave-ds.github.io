@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LX6Y4ME99Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LX6Y4ME99Q');
+</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Deepanshu Sharma — Senior BI Consultant</title>
@@ -551,7 +560,8 @@ footer{padding:2.5rem 5vw;display:flex;justify-content:space-between;align-items
     <div class="hire-left reveal">
       <h2>LET'S <span>BUILD</span><br>SOMETHING<br>TOGETHER</h2>
       <p>Whether you have an open role, a data problem to solve, or a BI initiative to kick off — I'd love to hear about it. Reach out via call, email, or LinkedIn and let's talk.</p>
-      <a href="Deepanshu_Sharma_Resume.pdf" download class="hire-resume-btn">
+      <a href="Deepanshu_Sharma_Resume.pdf" download class="hire-resume-btn" onclick="trackResumeDownload()">
+  
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 12h10"/></svg>
         Download Resume
       </a>
@@ -583,6 +593,15 @@ footer{padding:2.5rem 5vw;display:flex;justify-content:space-between;align-items
   </div>
   <div class="footer-copy">© 2025 · All Rights Reserved</div>
 </footer>
+
+<script>
+function trackResumeDownload() {
+  gtag('event', 'resume_download', {
+    'event_category': 'engagement',
+    'event_label': 'Resume Download'
+  });
+}
+</script>
 
 <script>
 const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
